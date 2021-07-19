@@ -44,7 +44,9 @@ grid.onclick = (e) => {
 // Outputs to div
 function output(text) {
 	const output = document.getElementById('output');
-	output.innerHTML = 'The shortest path is ' + text + ' blocks long';
+	if (typeof text === 'number')
+		output.innerHTML = 'The shortest path is ' + text + ' blocks long';
+	else output.innerHTML = text;
 }
 
 // Gets array and runs shortest path algorithm
@@ -53,17 +55,22 @@ document.getElementById('run').onclick = function () {
 	const rows = document.getElementById('rows').value;
 	const cols = document.getElementById('cols').value;
 
-	const array = new Array(parseInt(rows));
 	const start = [];
 	const end = [];
+
+	// Declaring boolean array of correct size
+	const array = new Array(parseInt(rows));
 
 	for (let i = 0; i < array.length; i++) {
 		array[i] = new Array(parseInt(cols)).fill(true);
 	}
 
+	// Loop through all cells
 	for (let i = 0; i < cells.length; i++) {
+		// Get position from div
 		let position = cells[i].textContent.replace(/[^0-9]/g, '').split('');
 
+		// Finding start, end and wall divs
 		if (cells[i].className == 'grid-item start') {
 			start.push(position[0], position[1]);
 		}
@@ -75,8 +82,10 @@ document.getElementById('run').onclick = function () {
 		}
 	}
 
+	// String to int
 	const P = [parseInt(start[0]), parseInt(start[1])];
 	const Q = [parseInt(end[0]), parseInt(end[1])];
 
+	// Run pathfinding function
 	output(pathfinder(array, P, Q));
 };
