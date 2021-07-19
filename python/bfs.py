@@ -6,6 +6,15 @@ import numpy as np
 
 def pathfinder(A, P, Q):
 
+    if P == Q:
+        return 'Start and end are the same point'
+
+    if A[P[0]][P[1]] == False:
+        return 'Start point is wall'
+
+    if A[Q[0]][Q[1]] == False:
+        return 'End point is wall'
+
     # Right Left Up Down
     directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 
@@ -62,16 +71,3 @@ def checkWall(point, map):
 def checkVisited(point, visited):
     if visited[point[0]][point[1]]:
         return True
-
-
-A = [
-    [True, False, True, True, True, True],
-    [True, False, True, True, True, True],
-    [True, False, True, True, True, True],
-    [True, True, True, True, True, True]
-]
-
-P = [0, 0]
-Q = [0, 5]
-
-print(pathfinder(A, P, Q))
